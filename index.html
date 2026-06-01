@@ -410,6 +410,40 @@ body::after{
 .empty-title{font-size:1.1rem;font-weight:600;margin-bottom:6px;color:var(--text-secondary)}
 .empty-desc{font-size:0.85rem}
 
+/* Category picker popover */
+.cat-picker-overlay{position:fixed;inset:0;z-index:899;display:none}
+.cat-picker-overlay.show{display:block}
+.cat-picker{
+  position:fixed;z-index:901;min-width:160px;max-width:220px;
+  background:var(--bg-card);border:1px solid var(--border-glow-strong);
+  border-radius:var(--radius-md);backdrop-filter:blur(20px);
+  box-shadow:0 12px 40px rgba(0,0,0,0.5),var(--shadow-glow-cyan);
+  padding:8px 0;display:none;overflow:hidden;
+  animation:popoverIn 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+.cat-picker.show{display:block}
+@keyframes popoverIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.cat-picker-title{
+  font-size:0.72rem;color:var(--text-muted);padding:4px 14px 8px;
+  border-bottom:1px solid var(--border-subtle);margin-bottom:4px;letter-spacing:1px;text-transform:uppercase;
+}
+.cat-picker-item{
+  display:block;width:100%;padding:8px 14px;font-size:0.82rem;font-weight:500;
+  color:var(--text-secondary);background:transparent;border:none;
+  text-align:left;cursor:pointer;transition:var(--transition-fast);
+  font-family:inherit;
+}
+.cat-picker-item:hover{background:var(--bg-subtle);color:var(--text-primary)}
+.cat-picker-item.active{color:var(--accent-cyan);background:rgba(0,229,255,0.08)}
+
+/* Make card category tag appear clickable */
+.card-category{cursor:pointer;position:relative;transition:var(--transition-fast)}
+.card-category:hover{filter:brightness(1.3);transform:scale(1.05)}
+.card-category::after{
+  content:'↻';font-size:0.6rem;margin-left:2px;opacity:0;transition:opacity var(--transition-fast);
+}
+.card-category:hover::after{opacity:0.7}
+
 /* Toast */
 .toast{
   position:fixed;top:24px;right:24px;z-index:1000;
@@ -659,6 +693,13 @@ body::after{
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<!-- Category Picker Popover -->
+<div class="cat-picker-overlay" id="catPickerOverlay" onclick="closeCatPicker()"></div>
+<div class="cat-picker" id="catPicker">
+  <div class="cat-picker-title">修改分类</div>
+  <div id="catPickerList"></div>
+</div>
+
 <script>
 /* ============ Theme Manager ============ */
 const THEME_KEY = 'jobhub_theme';
@@ -737,6 +778,7 @@ let activeCategory = '全部';
 let searchQuery = '';
 let deleteTargetId = null;
 let editTargetId = null;
+let catPickerTargetId = null;
 
 /* ============ URL Check State ============ */
 const URL_STATUS_KEY = 'jobhub_url_statuses';
@@ -913,7 +955,7 @@ function renderCards() {
     <div class="company-card">
       <div class="card-header">
         <span class="card-name">${escapeHtml(c.name)}</span>
-        <span class="card-category cat-${escapeHtml(c.category)}">${escapeHtml(c.category)}</span>
+        <span class="card-category cat-${escapeHtml(c.category)}" onclick="event.stopPropagation();openCatPicker(event,'${c.id}')" title="点击修改分类">${escapeHtml(c.category)}</span>
       </div>
       <div class="card-desc">${escapeHtml(c.description || '暂无描述')}</div>
       <a href="${escapeHtml(c.url)}" target="_blank" rel="noopener" class="card-url" onclick="event.stopPropagation()">${escapeHtml(c.url)}</a>
@@ -1100,7 +1142,7 @@ document.getElementById('editModal').addEventListener('click', function(e) {
 
 // Close modal on Escape
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') { closeDeleteModal(); closeEditModal(); }
+  if (e.key === 'Escape') { closeDeleteModal(); closeEditModal(); closeCatPicker(); }
 });
 
 /* ============ Edit ============ */
@@ -1150,6 +1192,56 @@ document.getElementById('confirmEditBtn').addEventListener('click', () => {
     showToast(`「${name}」修改成功！`, 'success');
   }
 });
+
+/* ============ Category Picker (Click Tag to Change) ============ */
+function openCatPicker(event, companyId) {
+  event.stopPropagation();
+  catPickerTargetId = companyId;
+  const company = appData.companies.find(c => c.id === companyId);
+  if (!company) return;
+
+  // Build category list
+  const list = document.getElementById('catPickerList');
+  list.innerHTML = appData.categories.map(cat =>
+    `<button class="cat-picker-item${cat === company.category ? ' active' : ''}" onclick="changeCompanyCategory('${companyId}','${cat.replace(/'/g,"\\'")}')">${escapeHtml(cat)}</button>`
+  ).join('');
+
+  const picker = document.getElementById('catPicker');
+  const overlay = document.getElementById('catPickerOverlay');
+  picker.classList.add('show');
+  overlay.classList.add('show');
+
+  // Position the popover near the clicked tag
+  const rect = event.target.getBoundingClientRect();
+  let left = rect.left;
+  let top = rect.bottom + 6;
+  // Keep within viewport
+  if (left + 220 > window.innerWidth) left = window.innerWidth - 230;
+  if (left < 8) left = 8;
+  if (top + 300 > window.innerHeight) top = rect.top - 8; // flip above
+  picker.style.left = left + 'px';
+  picker.style.top = top + 'px';
+}
+
+function closeCatPicker() {
+  catPickerTargetId = null;
+  document.getElementById('catPicker').classList.remove('show');
+  document.getElementById('catPickerOverlay').classList.remove('show');
+}
+
+function changeCompanyCategory(companyId, newCategory) {
+  const company = appData.companies.find(c => c.id === companyId);
+  if (!company || company.category === newCategory) {
+    closeCatPicker();
+    return;
+  }
+  const oldCat = company.category;
+  company.category = newCategory;
+  saveData(appData);
+  closeCatPicker();
+  renderAll();
+  showToast(`「${company.name}」分类已从「${oldCat}」改为「${newCategory}」`, 'success');
+}
 
 /* ============ Export ============ */
 function exportData() {
