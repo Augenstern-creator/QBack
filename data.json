@@ -1,0 +1,248 @@
+{
+  "categories": [
+    "国央企",
+    "银行",
+    "证券",
+    "基金",
+    "保险",
+    "互联网",
+    "通信",
+    "能源",
+    "汽车",
+    "其他"
+  ],
+  "companies": [
+    {
+      "id": "1",
+      "name": "国家电网",
+      "url": "https://zhaopin.sgcc.com.cn",
+      "category": "国央企",
+      "description": "国家电网有限公司招聘平台，含校园招聘与社会招聘",
+      "addedDate": "2026-05-15"
+    },
+    {
+      "id": "2",
+      "name": "中国石油",
+      "url": "https://zhaopin.cnpc.com.cn",
+      "category": "国央企",
+      "description": "中国石油天然气集团有限公司官方招聘网站",
+      "addedDate": "2026-05-15"
+    },
+    {
+      "id": "3",
+      "name": "中国工商银行",
+      "url": "https://job.icbc.com.cn",
+      "category": "银行",
+      "description": "国有六大行 · 总行及分支机构招聘",
+      "addedDate": "2026-05-16"
+    },
+    {
+      "id": "4",
+      "name": "中国农业银行",
+      "url": "https://career.abchina.com",
+      "category": "银行",
+      "description": "国有六大行 · 校园招聘与社会招聘官网",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "5",
+      "name": "中国银行",
+      "url": "https://www.boc.cn/aboutboc/ab5",
+      "category": "银行",
+      "description": "国有六大行 · 总行及境内外分支机构招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "6",
+      "name": "中国建设银行",
+      "url": "https://job.ccb.com",
+      "category": "银行",
+      "description": "国有六大行 · 总行及分支机构招聘官网",
+      "addedDate": "2026-05-16"
+    },
+    {
+      "id": "7",
+      "name": "交通银行",
+      "url": "https://job.bankcomm.com",
+      "category": "银行",
+      "description": "国有六大行 · 总行及分行招聘平台",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "8",
+      "name": "中国邮政储蓄银行",
+      "url": "https://psbc.zhaopin.com",
+      "category": "银行",
+      "description": "国有六大行 · 校园招聘与社会招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "9",
+      "name": "招商银行",
+      "url": "https://career.cmbchina.com",
+      "category": "银行",
+      "description": "十二家股份制银行 · 校园招聘与社会招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "10",
+      "name": "浦发银行",
+      "url": "https://job.spdb.com.cn",
+      "category": "银行",
+      "description": "十二家股份制银行 · 总行及分行招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "11",
+      "name": "中信银行",
+      "url": "https://www.citicbank.com/about/career",
+      "category": "银行",
+      "description": "十二家股份制银行 · 校园及社会招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "12",
+      "name": "中国光大银行",
+      "url": "https://www.cebbank.com/gx/rczp",
+      "category": "银行",
+      "description": "十二家股份制银行 · 人才招聘官网",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "13",
+      "name": "华夏银行",
+      "url": "https://www.hxb.com.cn/gateway/career",
+      "category": "银行",
+      "description": "十二家股份制银行 · 社会招聘与校园招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "14",
+      "name": "中国民生银行",
+      "url": "https://www.cmbc.com.cn/rczp",
+      "category": "银行",
+      "description": "十二家股份制银行 · 人才招聘平台",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "15",
+      "name": "广发银行",
+      "url": "https://www.cgbchina.com.cn/career",
+      "category": "银行",
+      "description": "十二家股份制银行 · 校园及社会招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "16",
+      "name": "兴业银行",
+      "url": "https://www.cib.com.cn/cn/aboutCIB/aboutCIB/job",
+      "category": "银行",
+      "description": "十二家股份制银行 · 总分行招聘官网",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "17",
+      "name": "平安银行",
+      "url": "https://talent.pingan.com",
+      "category": "银行",
+      "description": "十二家股份制银行 · 校园招聘与社会招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "18",
+      "name": "浙商银行",
+      "url": "https://www.czbank.com/cn/career",
+      "category": "银行",
+      "description": "十二家股份制银行 · 社会招聘与校园招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "19",
+      "name": "恒丰银行",
+      "url": "https://www.hfbank.com.cn/rczp",
+      "category": "银行",
+      "description": "十二家股份制银行 · 人才招聘平台",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "20",
+      "name": "渤海银行",
+      "url": "https://www.cbhb.com.cn/bank/rczp",
+      "category": "银行",
+      "description": "十二家股份制银行 · 校园招聘与社会招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "21",
+      "name": "国家开发银行",
+      "url": "https://www.cdb.com.cn/rczp",
+      "category": "银行",
+      "description": "政策性银行 · 校园招聘与社会招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "22",
+      "name": "中国进出口银行",
+      "url": "https://www.eximbank.gov.cn/about/career",
+      "category": "银行",
+      "description": "政策性银行 · 总行及分支机构招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "23",
+      "name": "中国农业发展银行",
+      "url": "https://www.adbc.com.cn/rczp",
+      "category": "银行",
+      "description": "政策性银行 · 校园招聘与社会招聘",
+      "addedDate": "2026-06-01"
+    },
+    {
+      "id": "24",
+      "name": "中信证券",
+      "url": "https://www.citics.com/hr",
+      "category": "证券",
+      "description": "中信证券股份有限公司招聘官网",
+      "addedDate": "2026-05-17"
+    },
+    {
+      "id": "25",
+      "name": "华泰证券",
+      "url": "https://www.htsc.com.cn/htzq/hr",
+      "category": "证券",
+      "description": "华泰证券社会招聘与校园招聘入口",
+      "addedDate": "2026-05-17"
+    },
+    {
+      "id": "26",
+      "name": "华为技术",
+      "url": "https://career.huawei.com",
+      "category": "互联网",
+      "description": "华为技术有限公司全球招聘官网",
+      "addedDate": "2026-05-18"
+    },
+    {
+      "id": "27",
+      "name": "腾讯",
+      "url": "https://careers.tencent.com",
+      "category": "互联网",
+      "description": "腾讯校园招聘与社会招聘官方平台",
+      "addedDate": "2026-05-18"
+    },
+    {
+      "id": "28",
+      "name": "中国移动",
+      "url": "https://job.10086.cn",
+      "category": "通信",
+      "description": "中国移动通信集团招聘官方网站",
+      "addedDate": "2026-05-19"
+    },
+    {
+      "id": "29",
+      "name": "国家能源集团",
+      "url": "https://zhaopin.chnenergy.com.cn",
+      "category": "能源",
+      "description": "国家能源投资集团有限责任公司招聘平台",
+      "addedDate": "2026-05-20"
+    }
+  ]
+}
