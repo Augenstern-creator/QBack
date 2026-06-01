@@ -3,30 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%2300e5ff'/><stop offset='50%25' stop-color='%23a855f7'/><stop offset='100%25' stop-color='%234d7cff'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23g)'/><text x='50' y='68' text-anchor='middle' font-family='Arial Black,sans-serif' font-weight='900' font-size='52' fill='%2306060e'>JH</text></svg>">
 <title>JobHub - 企业招聘信息聚合平台</title>
 <style>
 /* ============ CSS Reset & Variables ============ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
+  /* Backgrounds */
   --bg-deep:#06060e;
   --bg-card:rgba(12,14,30,0.85);
   --bg-card-hover:rgba(16,20,42,0.92);
+  --bg-input:rgba(255,255,255,0.03);
+  --bg-subtle:rgba(255,255,255,0.06);
+  --bg-select-option:#0c0e1e;
+  /* Borders */
   --border-glow:rgba(0,240,255,0.25);
   --border-glow-strong:rgba(0,240,255,0.55);
+  --border-glow-hover:rgba(0,229,255,0.35);
+  --border-input:rgba(255,255,255,0.1);
+  --border-subtle:rgba(255,255,255,0.08);
+  --border-hover:rgba(255,255,255,0.15);
+  --border-divider:rgba(0,229,255,0.1);
+  --border-strong:rgba(255,255,255,0.25);
+  /* Text */
   --text-primary:#e8f0ff;
   --text-secondary:#8899bb;
   --text-muted:#556688;
+  --text-option:#e8f0ff;
+  --logo-text:#06060e;
+  /* Accents (shared across themes) */
   --accent-cyan:#00e5ff;
   --accent-blue:#4d7cff;
   --accent-purple:#a855f7;
   --accent-green:#00e676;
   --accent-orange:#ff9100;
   --accent-pink:#ff4081;
+  /* Gradients */
   --gradient-1:linear-gradient(135deg,#00e5ff,#4d7cff);
   --gradient-2:linear-gradient(135deg,#a855f7,#4d7cff);
   --gradient-3:linear-gradient(135deg,#00e5ff,#a855f7,#4d7cff);
+  /* Shadows */
   --shadow-glow-cyan:0 0 20px rgba(0,229,255,0.3),0 0 60px rgba(0,229,255,0.1);
   --shadow-glow-purple:0 0 20px rgba(168,85,247,0.3),0 0 60px rgba(168,85,247,0.1);
+  --shadow-heavy:0 8px 30px rgba(0,0,0,0.4);
+  /* Scrollbar */
+  --scrollbar-track:rgba(255,255,255,0.02);
+  --scrollbar-thumb:rgba(0,229,255,0.25);
+  --scrollbar-thumb-hover:rgba(0,229,255,0.45);
+  /* Grid & Decor */
+  --grid-color:rgba(0,229,255,0.03);
+  /* Modal */
+  --modal-overlay:rgba(0,0,0,0.7);
+  /* Misc */
   --radius-sm:8px;
   --radius-md:12px;
   --radius-lg:16px;
@@ -34,6 +62,37 @@
   --transition-fast:0.2s cubic-bezier(0.4,0,0.2,1);
   --transition-smooth:0.35s cubic-bezier(0.4,0,0.2,1);
   --font-mono:'JetBrains Mono','Fira Code','Cascadia Code',monospace;
+}
+
+/* Light Theme */
+[data-theme="light"]{
+  --bg-deep:#f0f2f5;
+  --bg-card:rgba(255,255,255,0.88);
+  --bg-card-hover:rgba(255,255,255,0.96);
+  --bg-input:rgba(0,0,0,0.03);
+  --bg-subtle:rgba(0,0,0,0.04);
+  --bg-select-option:#ffffff;
+  --border-glow:rgba(0,140,200,0.25);
+  --border-glow-strong:rgba(0,140,200,0.55);
+  --border-glow-hover:rgba(0,140,200,0.35);
+  --border-input:rgba(0,0,0,0.12);
+  --border-subtle:rgba(0,0,0,0.08);
+  --border-hover:rgba(0,0,0,0.18);
+  --border-divider:rgba(0,0,0,0.08);
+  --border-strong:rgba(0,0,0,0.2);
+  --text-primary:#181830;
+  --text-secondary:#585878;
+  --text-muted:#999aab;
+  --text-option:#181830;
+  --logo-text:#ffffff;
+  --shadow-glow-cyan:0 0 20px rgba(0,140,200,0.18),0 0 40px rgba(0,140,200,0.06);
+  --shadow-glow-purple:0 0 20px rgba(120,60,200,0.18),0 0 40px rgba(120,60,200,0.06);
+  --shadow-heavy:0 4px 20px rgba(0,0,0,0.1);
+  --scrollbar-track:rgba(0,0,0,0.03);
+  --scrollbar-thumb:rgba(0,0,0,0.18);
+  --scrollbar-thumb-hover:rgba(0,0,0,0.3);
+  --grid-color:rgba(0,0,0,0.04);
+  --modal-overlay:rgba(0,0,0,0.45);
 }
 
 html{font-size:16px;scroll-behavior:smooth}
@@ -44,6 +103,7 @@ body{
   min-height:100vh;
   overflow-x:hidden;
   line-height:1.6;
+  transition:background 0.4s,color 0.4s;
 }
 
 /* Grid background */
@@ -51,8 +111,8 @@ body::before{
   content:'';
   position:fixed;inset:0;z-index:0;pointer-events:none;
   background-image:
-    linear-gradient(rgba(0,229,255,0.03) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,229,255,0.03) 1px,transparent 1px);
+    linear-gradient(var(--grid-color) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);
   background-size:60px 60px;
   mask-image:radial-gradient(ellipse 80% 60% at 50% 30%,#000 40%,transparent 70%);
 }
@@ -74,9 +134,9 @@ body::after{
 
 /* ============ Scrollbar ============ */
 ::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:rgba(255,255,255,0.02)}
-::-webkit-scrollbar-thumb{background:rgba(0,229,255,0.25);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:rgba(0,229,255,0.45)}
+::-webkit-scrollbar-track{background:var(--scrollbar-track)}
+::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover)}
 
 /* ============ Layout ============ */
 .app{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 24px}
@@ -84,14 +144,14 @@ body::after{
 /* ============ Header ============ */
 .header{
   display:flex;align-items:center;justify-content:space-between;
-  padding:20px 0;border-bottom:1px solid rgba(0,229,255,0.1);
+  padding:20px 0;border-bottom:1px solid var(--border-divider);
   flex-wrap:wrap;gap:16px;
 }
 .header-brand{display:flex;align-items:center;gap:14px}
 .header-logo{
   width:44px;height:44px;border-radius:var(--radius-sm);
   background:var(--gradient-3);display:flex;align-items:center;justify-content:center;
-  font-size:22px;font-weight:800;color:#06060e;box-shadow:var(--shadow-glow-cyan);
+  font-size:22px;font-weight:800;color:var(--logo-text);box-shadow:var(--shadow-glow-cyan);
 }
 .header-title{font-size:1.5rem;font-weight:700;letter-spacing:-0.5px}
 .header-title span{background:var(--gradient-1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -131,7 +191,7 @@ body::after{
   border-radius:var(--radius-xl);padding:24px;backdrop-filter:blur(16px);
   transition:var(--transition-smooth);
 }
-.panel:hover{border-color:rgba(0,229,255,0.35)}
+.panel:hover{border-color:var(--border-glow-hover)}
 .panel-title{
   font-size:1rem;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px;
 }
@@ -148,7 +208,7 @@ body::after{
 }
 .form-input,.form-select{
   width:100%;padding:11px 14px;
-  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);
+  background:var(--bg-input);border:1px solid var(--border-input);
   border-radius:var(--radius-sm);color:var(--text-primary);
   font-size:0.9rem;font-family:inherit;transition:var(--transition-fast);
   outline:none;
@@ -158,7 +218,7 @@ body::after{
 }
 .form-input::placeholder{color:var(--text-muted)}
 .form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238899bb' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:36px;cursor:pointer}
-.form-select option{background:#0c0e1e;color:#e8f0ff}
+.form-select option{background:var(--bg-select-option);color:var(--text-option)}
 
 .btn{
   display:inline-flex;align-items:center;justify-content:center;gap:6px;
@@ -171,7 +231,7 @@ body::after{
   transform:translateX(-100%);transition:transform 0.5s;
 }
 .btn:hover::after{transform:translateX(100%)}
-.btn-primary{background:var(--gradient-1);color:#06060e;box-shadow:0 4px 15px rgba(0,229,255,0.3)}
+.btn-primary{background:var(--gradient-1);color:var(--logo-text);box-shadow:0 4px 15px rgba(0,229,255,0.3)}
 .btn-primary:hover{box-shadow:0 6px 25px rgba(0,229,255,0.5);transform:translateY(-1px)}
 .btn-outline{
   background:transparent;border:1px solid var(--border-glow);color:var(--accent-cyan);
@@ -205,7 +265,7 @@ body::after{
 .filter-tab{
   padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:500;
   cursor:pointer;transition:var(--transition-fast);
-  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);
+  background:var(--bg-input);border:1px solid var(--border-subtle);
   color:var(--text-secondary);white-space:nowrap;
 }
 .filter-tab:hover{border-color:rgba(0,229,255,0.3);color:var(--text-primary)}
@@ -218,7 +278,7 @@ body::after{
 .search-box{position:relative;min-width:240px}
 .search-box input{
   width:100%;padding:9px 14px 9px 38px;
-  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);
+  background:var(--bg-input);border:1px solid var(--border-input);
   border-radius:20px;color:var(--text-primary);font-size:0.88rem;
   outline:none;transition:var(--transition-fast);font-family:inherit;
 }
@@ -254,7 +314,7 @@ body::after{
 .company-card:hover::before{opacity:1}
 .company-card:hover{
   border-color:var(--border-glow-strong);transform:translateY(-3px);
-  box-shadow:0 8px 30px rgba(0,0,0,0.4),var(--shadow-glow-cyan);
+  box-shadow:var(--shadow-heavy),var(--shadow-glow-cyan);
 }
 .card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
 .card-name{
@@ -292,7 +352,7 @@ body::after{
   transition:var(--transition-fast);font-family:inherit;
   border:1px solid transparent;background:transparent;color:var(--text-secondary);
 }
-.card-actions button:hover{color:var(--text-primary);border-color:rgba(255,255,255,0.15)}
+.card-actions button:hover{color:var(--text-primary);border-color:var(--border-hover)}
 .card-actions .btn-visit:hover{color:var(--accent-cyan);border-color:rgba(0,229,255,0.3)}
 .card-actions .btn-delete:hover{color:var(--accent-pink);border-color:rgba(255,64,129,0.3)}
 .card-actions .btn-edit:hover{color:var(--accent-orange);border-color:rgba(255,145,0,0.3)}
@@ -311,14 +371,14 @@ body::after{
 
 /* ============ Check Toolbar ============ */
 .check-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 20px 0;padding:12px 16px;background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-lg);backdrop-filter:blur(12px)}
-.check-toolbar .btn-check{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--gradient-1);color:#06060e;border:none;border-radius:20px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:var(--transition-fast);font-family:inherit;box-shadow:0 4px 12px rgba(0,229,255,0.25)}
+.check-toolbar .btn-check{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--gradient-1);color:var(--logo-text);border:none;border-radius:20px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:var(--transition-fast);font-family:inherit;box-shadow:0 4px 12px rgba(0,229,255,0.25)}
 .check-toolbar .btn-check:hover{box-shadow:0 6px 20px rgba(0,229,255,0.45);transform:translateY(-1px)}
 .check-toolbar .btn-check:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none}
 
 /* Progress bar */
 .check-progress{flex:1;min-width:150px;display:none}
 .check-progress.show{display:block}
-.progress-bar-bg{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden}
+.progress-bar-bg{height:6px;background:var(--bg-subtle);border-radius:3px;overflow:hidden}
 .progress-bar-fill{height:100%;background:var(--gradient-1);border-radius:3px;transition:width 0.3s;width:0%}
 .progress-text{font-size:0.7rem;color:var(--text-muted);margin-top:4px;font-family:var(--font-mono)}
 
@@ -327,7 +387,7 @@ body::after{
 .summary-tag{padding:3px 10px;border-radius:12px;font-size:0.68rem;font-weight:500;border:1px solid;cursor:pointer;transition:var(--transition-fast);user-select:none}
 .summary-tag:hover{transform:translateY(-1px);filter:brightness(1.3)}
 .summary-tag.active{box-shadow:0 0 10px rgba(0,229,255,0.3);border-color:var(--accent-cyan)!important;color:var(--accent-cyan)!important;background:rgba(0,229,255,0.12)!important}
-.summary-tag.active-all{color:var(--text-primary);border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.06)}
+.summary-tag.active-all{color:var(--text-primary);border-color:var(--border-strong);background:var(--bg-subtle)}
 .summary-tag.ok{color:var(--accent-green);border-color:rgba(0,230,118,0.3);background:rgba(0,230,118,0.06)}
 .summary-tag.fail{color:var(--accent-pink);border-color:rgba(255,64,129,0.3);background:rgba(255,64,129,0.06)}
 .summary-tag.uncertain{color:var(--accent-orange);border-color:rgba(255,145,0,0.3);background:rgba(255,145,0,0.06)}
@@ -337,7 +397,7 @@ body::after{
 .toggle-wrap{display:inline-flex;align-items:center;gap:8px;font-size:0.75rem;color:var(--text-secondary);white-space:nowrap}
 .toggle-switch{position:relative;width:40px;height:22px;flex-shrink:0}
 .toggle-switch input{opacity:0;width:0;height:0}
-.toggle-slider{position:absolute;cursor:pointer;inset:0;background:rgba(255,255,255,0.08);border-radius:11px;transition:var(--transition-fast);border:1px solid rgba(255,255,255,0.12)}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:var(--border-subtle);border-radius:11px;transition:var(--transition-fast);border:1px solid var(--border-subtle)}
 .toggle-slider::before{content:'';position:absolute;height:16px;width:16px;left:2px;bottom:2px;background:var(--text-muted);border-radius:50%;transition:var(--transition-fast)}
 .toggle-switch input:checked+.toggle-slider{background:rgba(0,229,255,0.2);border-color:var(--accent-cyan)}
 .toggle-switch input:checked+.toggle-slider::before{background:var(--accent-cyan);transform:translateX(18px);box-shadow:0 0 6px var(--accent-cyan)}
@@ -356,7 +416,7 @@ body::after{
   padding:12px 22px;border-radius:var(--radius-sm);
   font-size:0.85rem;font-weight:500;color:#fff;
   transform:translateX(120%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
-  backdrop-filter:blur(12px);box-shadow:0 8px 30px rgba(0,0,0,0.4);
+  backdrop-filter:blur(12px);box-shadow:var(--shadow-heavy);
 }
 .toast.show{transform:translateX(0)}
 .toast-success{background:rgba(0,230,118,0.2);border:1px solid rgba(0,230,118,0.4)}
@@ -366,7 +426,7 @@ body::after{
 /* ============ Modal ============ */
 .modal-overlay{
   position:fixed;inset:0;z-index:900;
-  background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);
+  background:var(--modal-overlay);backdrop-filter:blur(4px);
   display:flex;align-items:center;justify-content:center;
   opacity:0;pointer-events:none;transition:opacity var(--transition-smooth);
 }
@@ -400,6 +460,19 @@ body::after{
   .panel{padding:18px}
   .toast{left:14px;right:14px;top:auto;bottom:14px;text-align:center}
 }
+/* ============ Pagination ============ */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 0 20px;flex-wrap:wrap}
+.pagination-btn{min-width:36px;height:36px;padding:0 8px;border-radius:var(--radius-sm);font-size:0.82rem;font-weight:500;font-family:var(--font-mono);cursor:pointer;transition:var(--transition-fast);background:var(--bg-input);border:1px solid var(--border-subtle);color:var(--text-secondary);display:inline-flex;align-items:center;justify-content:center;user-select:none}
+.pagination-btn:hover:not(.active):not(:disabled){border-color:var(--accent-cyan);color:var(--accent-cyan);box-shadow:0 0 10px rgba(0,229,255,0.12)}
+.pagination-btn.active{background:var(--gradient-1);color:var(--logo-text);border-color:transparent;box-shadow:0 0 14px rgba(0,229,255,0.35);font-weight:700}
+.pagination-btn:disabled{opacity:0.3;cursor:not-allowed}
+.pagination-ellipsis{width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-muted);font-family:var(--font-mono);font-size:0.78rem;user-select:none}
+.pagination-info{font-size:0.78rem;color:var(--text-secondary);font-family:var(--font-mono);margin:0 8px;white-space:nowrap}
+.pagination-size-select{margin-left:12px;padding:6px 28px 6px 10px;background:var(--bg-input);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);color:var(--text-secondary);font-size:0.75rem;font-family:var(--font-mono);cursor:pointer;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238899bb' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;transition:var(--transition-fast)}
+.pagination-size-select:focus{border-color:var(--accent-cyan)}
+.pagination-size-select option{background:var(--bg-select-option);color:var(--text-option)}
+@media(max-width:900px){.pagination{gap:4px}.pagination-btn{min-width:30px;height:30px;font-size:0.72rem}.pagination-info{font-size:0.7rem;margin:0 4px}.pagination-size-select{font-size:0.7rem;padding:5px 22px 5px 8px}}
+@media(max-width:480px){.pagination{justify-content:space-between}.pagination-info{display:none}}
 </style>
 </head>
 <body>
@@ -414,9 +487,17 @@ body::after{
         <p class="header-subtitle">Enterprise Recruitment Aggregator</p>
       </div>
     </div>
-    <button class="btn btn-outline btn-sm" onclick="exportData()" title="导出数据">
-      ⬇ 导出数据
-    </button>
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="https://linxiaoqin.netlify.app/" target="_blank" rel="noopener" class="btn btn-outline btn-sm" title="作者博客" style="text-decoration:none">
+        📝 作者博客
+      </a>
+      <button class="btn btn-outline btn-sm" id="themeToggle" onclick="toggleTheme()" title="切换主题">
+        🌙 深色模式
+      </button>
+      <button class="btn btn-outline btn-sm" onclick="exportData()" title="导出数据">
+        ⬇ 导出数据
+      </button>
+    </div>
   </header>
 
   <!-- Stats -->
@@ -519,6 +600,9 @@ body::after{
       <!-- Cards Grid -->
       <div class="cards-grid" id="cardsGrid"></div>
 
+      <!-- Pagination -->
+      <div class="pagination" id="pagination"></div>
+
       <!-- Empty State -->
       <div class="empty-state" id="emptyState" style="display:none">
         <div class="empty-icon">📭</div>
@@ -573,6 +657,35 @@ body::after{
 <div class="toast" id="toast"></div>
 
 <script>
+/* ============ Theme Manager ============ */
+const THEME_KEY = 'jobhub_theme';
+
+function getTheme() {
+  try {
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored === 'light' || stored === 'dark') return stored;
+  } catch(e) {}
+  return 'dark'; // default dark
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const btn = document.getElementById('themeToggle');
+  if (btn) {
+    btn.innerHTML = theme === 'light' ? '☀️ 浅色模式' : '🌙 深色模式';
+  }
+  localStorage.setItem(THEME_KEY, theme);
+}
+
+function toggleTheme() {
+  const current = getTheme();
+  const next = current === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+}
+
+// Apply theme on load
+applyTheme(getTheme());
+
 /* ============ Data Manager ============ */
 const STORAGE_KEY = 'jobhub_data';
 
@@ -630,6 +743,14 @@ let checkRunning = false;
 let checkAborted = false;
 let activeStatusFilter = null; // null=全部, 'ok'|'fail'|'uncertain'|'untested'
 
+/* ============ Pagination State ============ */
+let currentPage = 1;
+let pageSize = 12;
+const PAGE_SIZE_KEY = 'jobhub_page_size';
+(function loadPageSize(){
+  try{const v=parseInt(localStorage.getItem(PAGE_SIZE_KEY));if([12,24,48].includes(v))pageSize=v}catch(e){}
+})();
+
 /* ============ Init ============ */
 loadInitialData().then(data => {
   appData = data;
@@ -680,6 +801,7 @@ function renderFilterTabs() {
 
 function setActiveCategory(cat) {
   activeCategory = cat;
+  currentPage = 1;
   renderFilterTabs();
   renderCards();
   updateResultsInfo();
@@ -774,11 +896,17 @@ function renderCards() {
   if (filtered.length === 0) {
     container.innerHTML = '';
     empty.style.display = 'block';
+    renderPagination();
     return;
   }
   empty.style.display = 'none';
 
-  container.innerHTML = filtered.map(c => `
+  // Auto-correct page if out of range
+  const totalPages = getTotalPages();
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  const paged = getPagedCompanies();
+  container.innerHTML = paged.map(c => `
     <div class="company-card">
       <div class="card-header">
         <span class="card-name">${escapeHtml(c.name)}</span>
@@ -797,6 +925,7 @@ function renderCards() {
       </div>
     </div>
   `).join('');
+  renderPagination();
 }
 
 function updateResultsInfo() {
@@ -809,17 +938,85 @@ function updateResultsInfo() {
     parts.push(`状态: ${labels[activeStatusFilter] || activeStatusFilter}`);
   }
   if (searchQuery) parts.push(`搜索: "${searchQuery}"`);
+  // Pagination info
+  let pageInfo = '';
+  if (filtered.length > pageSize) {
+    const from = (currentPage - 1) * pageSize + 1;
+    const to = Math.min(currentPage * pageSize, filtered.length);
+    pageInfo = `第 <strong>${from}-${to}</strong> 条，`;
+  }
   if (parts.length > 0) {
-    el.innerHTML = `筛选条件：${parts.join(' · ')} — <strong>${filtered.length}</strong> 条结果`;
+    el.innerHTML = `筛选条件：${parts.join(' · ')} — ${pageInfo}共 <strong>${filtered.length}</strong> 条结果`;
   } else {
-    el.innerHTML = `共收录 <strong>${appData.companies.length}</strong> 家企业招聘网站`;
+    el.innerHTML = `共收录 <strong>${appData.companies.length}</strong> 家企业招聘网站${pageInfo ? ` — ${pageInfo}共 <strong>${filtered.length}</strong> 条` : ''}`;
   }
 }
 
 function applyFilters() {
   searchQuery = document.getElementById('searchInput').value.trim();
+  currentPage = 1;
   renderCards();
   updateResultsInfo();
+}
+
+/* ============ Pagination ============ */
+function getTotalPages(){
+  return Math.ceil(getFilteredCompanies().length/pageSize)||1;
+}
+function getPagedCompanies(){
+  const filtered=getFilteredCompanies();
+  const start=(currentPage-1)*pageSize;
+  return filtered.slice(start,start+pageSize);
+}
+function goToPage(page){
+  const total=getTotalPages();
+  if(page<1||page>total)return;
+  currentPage=page;
+  renderCards();
+  updateResultsInfo();
+  const grid=document.getElementById('cardsGrid');
+  if(grid)grid.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function changePageSize(size){
+  pageSize=size;
+  currentPage=1;
+  localStorage.setItem(PAGE_SIZE_KEY,String(size));
+  renderCards();
+  updateResultsInfo();
+}
+function renderPagination(){
+  const container=document.getElementById('pagination');
+  if(!container)return;
+  const total=getTotalPages();
+  const filtered=getFilteredCompanies();
+  if(total<=1){container.innerHTML='';return;}
+  let html='';
+  html+=`<button class="pagination-btn" onclick="goToPage(1)" ${currentPage===1?'disabled':''} title="首页">◀◀</button>`;
+  html+=`<button class="pagination-btn" onclick="goToPage(${currentPage-1})" ${currentPage===1?'disabled':''} title="上一页">◀</button>`;
+  const pages=[];
+  if(total<=7){for(let i=1;i<=total;i++)pages.push(i)}
+  else{
+    pages.push(1);
+    if(currentPage>3)pages.push('...');
+    const start=Math.max(2,currentPage-1);
+    const end=Math.min(total-1,currentPage+1);
+    for(let i=start;i<=end;i++)pages.push(i);
+    if(currentPage<total-2)pages.push('...');
+    pages.push(total);
+  }
+  pages.forEach(p=>{
+    if(p==='...')html+=`<span class="pagination-ellipsis">...</span>`;
+    else html+=`<button class="pagination-btn${p===currentPage?' active':''}" onclick="goToPage(${p})">${p}</button>`;
+  });
+  html+=`<button class="pagination-btn" onclick="goToPage(${currentPage+1})" ${currentPage===total?'disabled':''} title="下一页">▶</button>`;
+  html+=`<button class="pagination-btn" onclick="goToPage(${total})" ${currentPage===total?'disabled':''} title="末页">▶▶</button>`;
+  const from=(currentPage-1)*pageSize+1;
+  const to=Math.min(currentPage*pageSize,filtered.length);
+  html+=`<span class="pagination-info">${from}-${to} / ${filtered.length}</span>`;
+  html+=`<select class="pagination-size-select" onchange="changePageSize(parseInt(this.value))">`;
+  [12,24,48].forEach(s=>{html+=`<option value="${s}"${pageSize===s?' selected':''}>每页${s}条</option>`});
+  html+=`</select>`;
+  container.innerHTML=html;
 }
 
 /* ============ Form Submit ============ */
@@ -862,6 +1059,7 @@ function handleSubmit(e) {
   // Reset form
   document.getElementById('addForm').reset();
   document.getElementById('newCatInput').classList.remove('show');
+  currentPage = 1;
   renderAll();
   showToast(`「${name}」添加成功！`, 'success');
 }
@@ -1021,6 +1219,7 @@ function updateCheckSummary() {
 
 function setStatusFilter(status) {
   activeStatusFilter = status;
+  currentPage = 1;
   renderCards();
   updateResultsInfo();
   updateCheckSummary();
