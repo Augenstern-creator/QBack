@@ -444,6 +444,102 @@ body::after{
 }
 .card-category:hover::after{opacity:0.7}
 
+/* ============ Batch Import Panel ============ */
+.batch-panel{border:1px solid var(--border-glow);border-radius:var(--radius-xl);backdrop-filter:blur(16px);overflow:hidden;transition:var(--transition-smooth);background:var(--bg-card)}
+.batch-panel:hover{border-color:var(--border-glow-hover)}
+.batch-panel-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 24px;cursor:pointer;user-select:none;
+  transition:var(--transition-fast);
+}
+.batch-panel-header:hover{background:var(--bg-subtle)}
+.batch-panel-header .panel-title{margin-bottom:0}
+.batch-panel-arrow{
+  font-size:0.8rem;color:var(--text-muted);transition:transform var(--transition-smooth);
+}
+.batch-panel.open .batch-panel-arrow{transform:rotate(180deg)}
+.batch-panel-body{
+  display:none;padding:0 24px 20px;
+}
+.batch-panel.open .batch-panel-body{display:block}
+.batch-textarea{
+  width:100%;min-height:120px;max-height:260px;padding:12px 14px;
+  background:var(--bg-input);border:1px solid var(--border-input);
+  border-radius:var(--radius-sm);color:var(--text-primary);
+  font-size:0.78rem;font-family:var(--font-mono);line-height:1.6;
+  outline:none;resize:vertical;transition:var(--transition-fast);
+}
+.batch-textarea:focus{border-color:var(--accent-cyan);box-shadow:0 0 0 3px rgba(0,229,255,0.1)}
+.batch-textarea::placeholder{color:var(--text-muted);font-family:inherit}
+
+/* AI Prompt clickable input */
+.ai-prompt-input{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;border-radius:var(--radius-sm);
+  background:var(--bg-input);border:1px solid var(--border-input);
+  cursor:pointer;transition:var(--transition-fast);
+  font-size:0.85rem;
+}
+.ai-prompt-input:hover{
+  border-color:var(--accent-purple);
+  box-shadow:0 0 12px rgba(168,85,247,0.15);
+  background:rgba(168,85,247,0.04);
+}
+.ai-prompt-icon{font-size:1.1rem;flex-shrink:0}
+.ai-prompt-text{flex:1;color:var(--text-secondary)}
+.ai-prompt-arrow{color:var(--accent-purple);font-weight:600;flex-shrink:0;transition:transform var(--transition-fast)}
+.ai-prompt-input:hover .ai-prompt-arrow{transform:translateX(3px)}
+
+/* AI Prompt Modal content */
+.ai-prompt-content{
+  background:var(--bg-input);border:1px solid var(--border-input);
+  border-radius:var(--radius-sm);padding:16px;margin:12px 0;
+  font-family:var(--font-mono);font-size:0.82rem;color:var(--text-primary);
+  line-height:1.7;white-space:pre-wrap;word-break:break-all;
+  position:relative;max-height:200px;overflow-y:auto;
+}
+.ai-prompt-copy-btn{
+  position:absolute;top:8px;right:8px;
+  padding:4px 10px;font-size:0.68rem;border-radius:6px;
+  background:var(--accent-purple);color:#fff;border:none;
+  cursor:pointer;transition:var(--transition-fast);font-family:inherit;
+  opacity:0.85;
+}
+.ai-prompt-copy-btn:hover{opacity:1;box-shadow:0 0 10px rgba(168,85,247,0.4)}
+
+/* Import Preview Modal */
+.import-modal{max-width:680px!important;max-height:80vh;display:flex;flex-direction:column}
+.import-summary{
+  display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;
+  font-size:0.78rem;color:var(--text-secondary);
+}
+.import-summary span{display:inline-flex;align-items:center;gap:4px}
+.import-table-wrap{
+  max-height:340px;overflow-y:auto;margin-bottom:14px;
+  border:1px solid var(--border-subtle);border-radius:var(--radius-sm);
+}
+.import-table{width:100%;border-collapse:collapse;font-size:0.75rem}
+.import-table th{
+  position:sticky;top:0;z-index:1;
+  background:var(--bg-card);padding:8px 10px;text-align:left;
+  color:var(--text-muted);font-weight:600;font-size:0.7rem;letter-spacing:0.5px;
+  border-bottom:1px solid var(--border-glow);
+}
+.import-table td{padding:7px 10px;border-bottom:1px solid var(--border-subtle);vertical-align:middle}
+.import-table tr:last-child td{border-bottom:none}
+.import-table .col-status{width:40px;text-align:center}
+.import-table .col-name{min-width:80px}
+.import-table .col-url{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.import-table .col-cat{min-width:60px}
+.import-badge{
+  display:inline-block;padding:2px 8px;border-radius:10px;font-size:0.65rem;font-weight:600;
+}
+.import-badge.ok{background:rgba(0,230,118,0.12);color:var(--accent-green);border:1px solid rgba(0,230,118,0.25)}
+.import-badge.duplicate{background:rgba(255,145,0,0.12);color:var(--accent-orange);border:1px solid rgba(255,145,0,0.25)}
+.import-badge.new-cat{background:rgba(168,85,247,0.12);color:var(--accent-purple);border:1px solid rgba(168,85,247,0.25)}
+.import-badge.error{background:rgba(255,64,129,0.12);color:var(--accent-pink);border:1px solid rgba(255,64,129,0.25)}
+.import-row-disabled{opacity:0.45}
+
 /* Toast */
 .toast{
   position:fixed;top:24px;right:24px;z-index:1000;
@@ -475,6 +571,35 @@ body::after{
 .modal-title{font-size:1.1rem;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:8px}
 .modal-title::before{content:'';width:3px;height:18px;border-radius:2px;background:var(--gradient-2)}
 .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+
+/* ============ Version Update Modal ============ */
+.update-list{
+  list-style:none;padding:0;margin:0;
+}
+.update-item{
+  padding:14px 0;border-bottom:1px solid var(--border-subtle);
+  display:flex;gap:12px;align-items:flex-start;
+}
+.update-item:last-child{border-bottom:none}
+.update-dot{
+  flex-shrink:0;width:8px;height:8px;border-radius:50%;
+  background:var(--accent-cyan);margin-top:7px;
+  box-shadow:0 0 8px rgba(0,229,255,0.5);
+}
+.update-item-content{flex:1;min-width:0}
+.update-item-title{
+  font-size:0.88rem;font-weight:600;color:var(--text-primary);
+  margin-bottom:4px;
+}
+.update-item-desc{
+  font-size:0.8rem;color:var(--text-secondary);line-height:1.5;
+}
+.update-version-badge{
+  display:inline-block;padding:2px 10px;border-radius:12px;
+  font-size:0.7rem;font-weight:700;letter-spacing:0.5px;
+  background:var(--gradient-1);color:var(--logo-text);
+  margin-bottom:14px;
+}
 
 /* ============ Responsive ============ */
 @media(max-width:900px){
@@ -620,6 +745,31 @@ body::after{
           <button class="btn btn-primary btn-sm" onclick="addCategoryFromManager()">添加</button>
         </div>
       </div>
+
+      <!-- Batch Import Panel -->
+      <div class="batch-panel" id="batchPanel">
+        <div class="batch-panel-header" onclick="toggleBatchImport()">
+          <h3 class="panel-title">📥 批量导入</h3>
+          <span class="batch-panel-arrow">▼</span>
+        </div>
+        <div class="batch-panel-body">
+          <div style="margin-bottom:10px">
+            <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();downloadJsonTemplate()">⬇ 下载JSON模板</button>
+          </div>
+          <div class="form-group">
+            <label class="form-label">粘贴 JSON 数组</label>
+            <textarea class="batch-textarea" id="batchTextarea" placeholder='[&#10;  {&quot;name&quot;:&quot;企业名称&quot;,&quot;url&quot;:&quot;https://...&quot;,&quot;category&quot;:&quot;分类&quot;},&#10;  {&quot;name&quot;:&quot;企业名称2&quot;,&quot;url&quot;:&quot;https://...&quot;,&quot;category&quot;:&quot;分类&quot;,&quot;description&quot;:&quot;可选描述&quot;}&#10;]'></textarea>
+          </div>
+          <div class="form-group">
+            <div class="ai-prompt-input" onclick="event.stopPropagation();openAiPromptModal()" title="点击查看 AI Prompt 示例">
+              <span class="ai-prompt-icon">🤖</span>
+              <span class="ai-prompt-text">想用AI快速导入？点此复制 Prompt</span>
+              <span class="ai-prompt-arrow">→</span>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-block" onclick="event.stopPropagation();previewBatchImport()">🔍 预览导入</button>
+        </div>
+      </div>
     </aside>
 
     <!-- Content -->
@@ -686,6 +836,65 @@ body::after{
     <div class="modal-actions">
       <button class="btn btn-outline btn-sm" onclick="closeEditModal()">取消</button>
       <button class="btn btn-primary btn-sm" id="confirmEditBtn">保存修改</button>
+    </div>
+  </div>
+</div>
+
+<!-- Import Preview Modal -->
+<div class="modal-overlay" id="importModal">
+  <div class="modal import-modal" id="importModalInner">
+    <h3 class="modal-title">📋 导入预览</h3>
+    <div class="import-summary" id="importSummary"></div>
+    <div class="import-table-wrap">
+      <table class="import-table">
+        <thead>
+          <tr>
+            <th class="col-status">状态</th>
+            <th class="col-name">企业名称</th>
+            <th class="col-url">URL</th>
+            <th class="col-cat">分类</th>
+          </tr>
+        </thead>
+        <tbody id="importTableBody"></tbody>
+      </table>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline btn-sm" onclick="closeImportModal()">取消</button>
+      <button class="btn btn-primary btn-sm" id="confirmImportBtn">✅ 确认导入</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI Prompt Modal -->
+<div class="modal-overlay" id="aiPromptModal">
+  <div class="modal" style="max-width:520px">
+    <h3 class="modal-title">🤖 AI Prompt Example</h3>
+    <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:4px">将以下内容复制发给 AI（如 ChatGPT、DeepSeek、Qoder 等），即可快速生成导入用的 JSON 数组：</p>
+    <div class="ai-prompt-content" id="aiPromptContent">
+      <button class="ai-prompt-copy-btn" onclick="event.stopPropagation();copyAiPrompt()">📋 复制</button>
+先搜集互联网雄安地区的国央企信息，并将信息如下JSON数组格式提供给我：</div>
+    <div class="modal-actions">
+      <button class="btn btn-outline btn-sm" onclick="closeAiPromptModal()">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- Version Update Modal -->
+<div class="modal-overlay" id="versionUpdateModal">
+  <div class="modal" style="max-width:480px;max-height:80vh;overflow-y:auto">
+    <span class="update-version-badge">版本更新 V1.0</span>
+    <ul class="update-list">
+      <li class="update-item">
+        <span class="update-dot"></span>
+        <div class="update-item-content">
+          <div class="update-item-title">🐛 问题修复</div>
+          <div class="update-item-desc">解决了一些提出bug的用户</div>
+        </div>
+      </li>
+      <!-- 在此处添加新的更新条目，格式同上 -->
+    </ul>
+    <div class="modal-actions">
+      <button class="btn btn-primary btn-sm" onclick="closeVersionUpdateModal()">关闭</button>
     </div>
   </div>
 </div>
@@ -779,6 +988,7 @@ let searchQuery = '';
 let deleteTargetId = null;
 let editTargetId = null;
 let catPickerTargetId = null;
+let importPreviewData = [];
 
 /* ============ URL Check State ============ */
 const URL_STATUS_KEY = 'jobhub_url_statuses';
@@ -805,6 +1015,8 @@ loadInitialData().then(data => {
   if (getAutoCheckPref()) {
     setTimeout(() => startCheckAll(true), 800);
   }
+  // Show version update modal if not seen
+  checkVersionUpdate();
 });
 
 function renderAll() {
@@ -1142,7 +1354,7 @@ document.getElementById('editModal').addEventListener('click', function(e) {
 
 // Close modal on Escape
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') { closeDeleteModal(); closeEditModal(); closeCatPicker(); }
+  if (e.key === 'Escape') { closeDeleteModal(); closeEditModal(); closeCatPicker(); closeImportModal(); closeAiPromptModal(); closeVersionUpdateModal(); }
 });
 
 /* ============ Edit ============ */
@@ -1193,6 +1405,8 @@ document.getElementById('confirmEditBtn').addEventListener('click', () => {
   }
 });
 
+document.getElementById('confirmImportBtn').addEventListener('click', confirmBatchImport);
+
 /* ============ Category Picker (Click Tag to Change) ============ */
 function openCatPicker(event, companyId) {
   event.stopPropagation();
@@ -1242,6 +1456,226 @@ function changeCompanyCategory(companyId, newCategory) {
   renderAll();
   showToast(`「${company.name}」分类已从「${oldCat}」改为「${newCategory}」`, 'success');
 }
+
+/* ============ Batch Import ============ */
+function toggleBatchImport() {
+  document.getElementById('batchPanel').classList.toggle('open');
+}
+
+function downloadJsonTemplate() {
+  const template = [
+    { name: '示例企业', url: 'https://zhaopin.example.com', category: '互联网', description: '校园招聘与社会招聘' },
+    { name: '示例银行', url: 'https://job.example-bank.com', category: '银行', description: '总行及分行招聘' }
+  ];
+  const blob = new Blob([JSON.stringify(template, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'jobhub-import-template.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('模板已下载，请用编辑器填写后粘贴导入', 'success');
+}
+
+function previewBatchImport() {
+  const raw = document.getElementById('batchTextarea').value.trim();
+  if (!raw) { showToast('请先粘贴 JSON 数组内容', 'error'); return; }
+
+  let parsed;
+  try { parsed = JSON.parse(raw); } catch (e) {
+    showToast('JSON 格式错误，请检查语法（缺少引号/逗号/括号？）', 'error');
+    return;
+  }
+  if (!Array.isArray(parsed)) {
+    showToast('请输入 JSON 数组（以 [ 开头 ] 结尾）', 'error');
+    return;
+  }
+  if (parsed.length === 0) {
+    showToast('数组为空，没有可导入的数据', 'info');
+    return;
+  }
+
+  const existingNames = new Set(appData.companies.map(c => c.name + '|||' + c.url));
+  const newCats = new Set(); // track categories that will be auto-created
+  const today = new Date().toISOString().split('T')[0];
+
+  importPreviewData = parsed.map((item, idx) => {
+    const name = (item.name || '').trim();
+    const url = (item.url || '').trim();
+    const category = (item.category || '').trim();
+    const description = (item.description || '').trim();
+
+    const result = {
+      index: idx,
+      name, url, category, description,
+      id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5) + idx,
+      addedDate: today,
+      status: 'ok', // ok | duplicate | missing | new_cat
+      statusLabel: '',
+      enabled: true
+    };
+
+    // Validation
+    if (!name || !url) {
+      result.status = 'missing';
+      result.statusLabel = '缺少必填';
+      result.enabled = false;
+      return result;
+    }
+    if (!category) {
+      result.status = 'missing';
+      result.statusLabel = '缺少分类';
+      result.enabled = false;
+      return result;
+    }
+
+    // Duplicate check
+    if (existingNames.has(name + '|||' + url)) {
+      result.status = 'duplicate';
+      result.statusLabel = '已存在';
+      result.enabled = false;
+      return result;
+    }
+
+    // New category check
+    if (!appData.categories.includes(category)) {
+      result.status = 'new_cat';
+      result.statusLabel = '新分类';
+      newCats.add(category);
+    } else {
+      result.statusLabel = '可导入';
+    }
+
+    return result;
+  });
+
+  // Show preview modal
+  const okCount = importPreviewData.filter(d => d.enabled).length;
+  const dupCount = importPreviewData.filter(d => d.status === 'duplicate').length;
+  const missingCount = importPreviewData.filter(d => d.status === 'missing').length;
+  const newCatCount = importPreviewData.filter(d => d.status === 'new_cat').length;
+
+  // Summary
+  let summaryHtml = `<span>共解析 <strong>${importPreviewData.length}</strong> 条</span>`;
+  if (okCount > 0) summaryHtml += `<span style="color:var(--accent-green)">✅ 可导入 <strong>${okCount}</strong> 条</span>`;
+  if (dupCount > 0) summaryHtml += `<span style="color:var(--accent-orange)">⚠️ 重复 <strong>${dupCount}</strong> 条</span>`;
+  if (missingCount > 0) summaryHtml += `<span style="color:var(--accent-pink)">❌ 格式错误 <strong>${missingCount}</strong> 条</span>`;
+  if (newCats.size > 0) summaryHtml += `<span style="color:var(--accent-purple)">🆕 将自动创建 ${newCats.size} 个新分类：${[...newCats].join('、')}</span>`;
+  document.getElementById('importSummary').innerHTML = summaryHtml;
+
+  // Table body
+  const badgeMap = {
+    ok: 'import-badge ok',
+    duplicate: 'import-badge duplicate',
+    missing: 'import-badge error',
+    new_cat: 'import-badge new-cat'
+  };
+  document.getElementById('importTableBody').innerHTML = importPreviewData.map(d => `
+    <tr class="${d.enabled ? '' : 'import-row-disabled'}">
+      <td class="col-status"><span class="${badgeMap[d.status] || ''}">${d.statusLabel}</span></td>
+      <td class="col-name">${escapeHtml(d.name) || '<span style="color:var(--text-muted)">—</span>'}</td>
+      <td class="col-url" title="${escapeHtml(d.url)}">${escapeHtml(d.url) || '<span style="color:var(--text-muted)">—</span>'}</td>
+      <td class="col-cat">${escapeHtml(d.category) || '<span style="color:var(--text-muted)">—</span>'}</td>
+    </tr>
+  `).join('');
+
+  document.getElementById('importModal').classList.add('show');
+  document.getElementById('confirmImportBtn').disabled = okCount === 0;
+}
+
+function closeImportModal() {
+  importPreviewData = [];
+  document.getElementById('importModal').classList.remove('show');
+}
+
+function confirmBatchImport() {
+  const toImport = importPreviewData.filter(d => d.enabled);
+  if (toImport.length === 0) {
+    showToast('没有可导入的数据', 'info');
+    return;
+  }
+
+  // Add new categories
+  const newCats = [...new Set(toImport.map(d => d.category).filter(c => !appData.categories.includes(c)))];
+  newCats.forEach(c => appData.categories.push(c));
+
+  // Add companies
+  const newCompanies = toImport.map(d => ({
+    id: d.id,
+    name: d.name,
+    url: d.url,
+    category: d.category,
+    description: d.description,
+    addedDate: d.addedDate
+  }));
+  appData.companies.unshift(...newCompanies);
+  saveData(appData);
+
+  const catMsg = newCats.length > 0 ? `，新增 ${newCats.length} 个分类` : '';
+  showToast(`成功导入 ${toImport.length} 家企业${catMsg}！`, 'success');
+
+  // Reset
+  document.getElementById('batchTextarea').value = '';
+  closeImportModal();
+  currentPage = 1;
+  renderAll();
+}
+
+// Import modal close on overlay click
+document.getElementById('importModal').addEventListener('click', function(e) {
+  if (e.target === this) closeImportModal();
+});
+
+/* ============ AI Prompt Modal ============ */
+function openAiPromptModal() {
+  document.getElementById('aiPromptModal').classList.add('show');
+}
+
+function closeAiPromptModal() {
+  document.getElementById('aiPromptModal').classList.remove('show');
+}
+
+function copyAiPrompt() {
+  const text = document.getElementById('aiPromptContent').innerText.replace('📋 复制', '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('Prompt 已复制到剪贴板！', 'success');
+  }).catch(() => {
+    showToast('复制失败，请手动选中复制', 'error');
+  });
+}
+
+// AI Prompt modal close on overlay click
+document.getElementById('aiPromptModal').addEventListener('click', function(e) {
+  if (e.target === this) closeAiPromptModal();
+});
+
+/* ============ Version Update Modal ============ */
+const VERSION_UPDATE_KEY = 'jobhub_version_update_v1_shown';
+
+function showVersionUpdateModal() {
+  document.getElementById('versionUpdateModal').classList.add('show');
+}
+
+function closeVersionUpdateModal() {
+  document.getElementById('versionUpdateModal').classList.remove('show');
+  localStorage.setItem(VERSION_UPDATE_KEY, 'true');
+}
+
+// Check if this version update has been shown
+function checkVersionUpdate() {
+  const shown = localStorage.getItem(VERSION_UPDATE_KEY);
+  if (!shown) {
+    // Delay slightly so the page renders first
+    setTimeout(() => showVersionUpdateModal(), 600);
+  }
+}
+
+// Version Update modal close on overlay click
+document.getElementById('versionUpdateModal').addEventListener('click', function(e) {
+  if (e.target === this) closeVersionUpdateModal();
+});
 
 /* ============ Export ============ */
 function exportData() {
